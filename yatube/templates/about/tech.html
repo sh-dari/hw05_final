@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <h1>Вот что я умею</h1>
+        <aside class="col-12 col-md-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Python
+            </li>
+            <li class="list-group-item">
+              Django
+            </li>
+          </ul>
+        </aside>
+        <article class="col-12 col-md-9">
+          <p>
+            <a href="https://docs.djangoproject.com/en/2.2/topics/">Документация Django</a>
+            <br>
+            В качестве IDE использовался VS Code.
+            Архитектура MVC — Model-View-Template в Django позволяет работать с визуальным представлением и бизнес-логикой приложения отдельно.
+            Объектно-реляционное отображение (ORM) обеспечивает взаимодействие приложения с базами данных.
+          </p>
+        </article>
+    </div>
+</div>
+{% endblock %}
