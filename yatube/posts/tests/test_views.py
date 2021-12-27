@@ -72,6 +72,7 @@ class PostPagesTests(TestCase):
             reverse(
                 'posts:post_edit',
                 kwargs={'post_id': self.post.id}): 'posts/create_post.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
         }
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
@@ -196,6 +197,21 @@ class PostPagesTests(TestCase):
         self.assertEqual(new_post_author.text, post.text)
         response = unfollow_client.get(reverse('posts:follow_index'))
         self.assertTrue(len(response.context['page_obj']) == 0)
+
+    def test_follow_user(self):
+        follow = User.objects.create_user(username='follow')
+        follow_client = Client()
+        follow_client.force_login(follow)
+        follow_client.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': self.user.username}
+        ))
+        self.assertTrue(Follow.objects.all().exists())
+        follow_client.get(reverse(
+            'posts:profile_unfollow',
+            kwargs={'username': self.user.username}
+        ))
+        self.assertFalse(Follow.objects.all().exists())
 
 
 class PaginatorViewsTest(TestCase):
