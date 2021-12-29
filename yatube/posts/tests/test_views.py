@@ -206,12 +206,24 @@ class PostPagesTests(TestCase):
             'posts:profile_follow',
             kwargs={'username': self.user.username}
         ))
-        self.assertTrue(Follow.objects.all().exists())
+        self.assertTrue(Follow.objects.filter(
+            author=self.user,
+            user=follow
+        ).exists())
+
+    def test_unfollow_user(self):
+        follow = User.objects.create_user(username='follow')
+        follow_client = Client()
+        follow_client.force_login(follow)
+        Follow.objects.create(author=self.user, user=follow)
         follow_client.get(reverse(
             'posts:profile_unfollow',
             kwargs={'username': self.user.username}
         ))
-        self.assertFalse(Follow.objects.all().exists())
+        self.assertFalse(Follow.objects.filter(
+            author=self.user,
+            user=follow
+        ).exists())
 
 
 class PaginatorViewsTest(TestCase):
